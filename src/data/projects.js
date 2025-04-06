@@ -12,7 +12,7 @@ export const projects = [
 The system uses a trained ML model to match tourists' activity preferences with locations where those activities are best enjoyed under optimal weather conditions. For example, a tourist interested in surfing and warm weather may be directed to Arugam Bay during the dry season, while a cultural enthusiast preferring cooler climates might be recommended to explore Kandy's temples during December. This level of customization improves tourist satisfaction and helps distribute tourist traffic across lesser-known but suitable destinations in Sri Lanka.
 
 The platform can be accessed via a user-friendly web or mobile interface. It also includes an AR (Augmented Reality) feature to enhance onsite engagement, allowing tourists to scan landmarks and receive instant details about the location. This not only enriches the travel experience but also promotes Sri Lanka's heritage and natural beauty using technology.`,
-    image: "/src/assets/images/img2.png",
+    image: "/images/img2.png",
     technologies: [
       "React",
       "Next js",
@@ -47,7 +47,7 @@ Finally, implementing AR features with location precision was technically demand
     fullDescription: `The system provides an efficient Admin Dashboard where managers can oversee daily operations including employee registration, detailed food management, and order processing. Employees are registered and stored in a dedicated module, ensuring smooth staff coordination. The Menu & Food Management feature allows administrators to add, update, and categorize food items, keeping the offerings current and engaging for customers.
       
 Real-time Inventory Tracking ensures that stock levels are constantly monitored, helping the kitchen maintain operational efficiency. The Customer Ordering System enables patrons to browse through four distinct food categories and place orders with ease, while the integrated Order Tracking module allows both admins and customers to monitor order statuses, ensuring timely service. Overall, the system optimizes operations, reduces manual errors, and enhances the dining experience.`,
-    image: "/src/assets/images/img1.jpeg",
+    image: "/images/img1.jpeg",
     technologies: ["C#", "MySQL", "Visual Studio", "Windows Forms"],
     githubUrl: "https://github.com/chamila04/Restaurant_Reservation_System",
     liveUrl: "",
@@ -74,7 +74,7 @@ Real-time Inventory Tracking ensures that stock levels are constantly monitored,
 Reporters can easily submit their news articles through the app, with the assurance that any revisions will be communicated promptly if their content is rejected. The approval workflow is central to maintaining high-quality content standards. 
 
 Additionally, the app offers a rating system to enhance user engagement and interaction, while real-time updates ensure that the latest news is always accessible.`,
-    image: "/src/assets/images/img3.png",
+    image: "/images/img3.png",
     technologies: ["Kotlin", "React", "Node.js", "MongoDB", "Next.js"],
     githubUrl: "https://github.com/chamila04/NewsApp",
     liveUrl: "https://health-tracker-demo.example.com",

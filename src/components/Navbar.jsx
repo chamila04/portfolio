@@ -59,7 +59,7 @@ const Navbar = () => {
           </li>
           <li className="nav-item nav-button">
             <a 
-              href="/src/assets/chamila.pdf" 
+              href="/chamila.pdf" 
               className="resume-button" 
               target="_blank"
               rel="noopener noreferrer"
