@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import { FiMenu, FiX } from "react-icons/fi";
+import ThemeToggle from "./ThemeToggle";
+import { ThemeContext } from "../context/ThemeContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,8 +18,8 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const toggleMenu = () => {
@@ -24,17 +27,15 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="navbar-container">
         <Link to="/" className="logo">
-          <h3>Chamila<span className="highlight">.</span></h3>
+          <h3>
+            Chamila<span className="highlight">.</span>
+          </h3>
         </Link>
 
-        <div className="menu-icon" onClick={toggleMenu}>
-          {isOpen ? <FiX /> : <FiMenu />}
-        </div>
-
-        <ul className={`nav-menu ${isOpen ? 'active' : ''}`}>
+        <ul className={`nav-menu ${isOpen ? "active" : ""}`}>
           <li className="nav-item">
             <Link to="/" className="nav-link" onClick={() => setIsOpen(false)}>
               Home
@@ -48,19 +49,27 @@ const Navbar = () => {
           </li>
            */}
           <li className="nav-item">
-            <a href="#projects" className="nav-link" onClick={() => setIsOpen(false)}>
+            <a
+              href="#projects"
+              className="nav-link"
+              onClick={() => setIsOpen(false)}
+            >
               Projects
             </a>
           </li>
           <li className="nav-item">
-            <a href="#contact" className="nav-link" onClick={() => setIsOpen(false)}>
+            <a
+              href="#contact"
+              className="nav-link"
+              onClick={() => setIsOpen(false)}
+            >
               Contact
             </a>
           </li>
           <li className="nav-item nav-button">
-            <a 
-              href="/chamila.pdf" 
-              className="resume-button" 
+            <a
+              href="/chamila.pdf"
+              className="resume-button"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -68,6 +77,13 @@ const Navbar = () => {
             </a>
           </li>
         </ul>
+
+        <div className="nav-right">
+          <ThemeToggle />
+          <div className="menu-icon" onClick={toggleMenu}>
+            {isOpen ? <FiX /> : <FiMenu />}
+          </div>
+        </div>
       </div>
 
       <style jsx>{`
@@ -79,11 +95,11 @@ const Navbar = () => {
           height: 70px;
           background-color: transparent;
           z-index: 1000;
-          transition: all 0.3s ease;
+          transition: all var(--transition-speed) ease;
         }
 
         .navbar.scrolled {
-          background-color: rgba(10, 25, 47, 0.9);
+          background-color: var(--nav-bg);
           box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
           backdrop-filter: blur(10px);
         }
@@ -122,7 +138,7 @@ const Navbar = () => {
         }
 
         .nav-link::after {
-          content: '';
+          content: "";
           position: absolute;
           width: 0;
           height: 2px;
@@ -148,6 +164,12 @@ const Navbar = () => {
           background-color: rgba(100, 255, 218, 0.1);
         }
 
+        .nav-right {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
         .menu-icon {
           display: none;
           font-size: 24px;
@@ -157,6 +179,12 @@ const Navbar = () => {
         @media screen and (max-width: 768px) {
           .menu-icon {
             display: block;
+          }
+
+          .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
           }
 
           .nav-menu {

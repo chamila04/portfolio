@@ -1,35 +1,56 @@
-import { FiLinkedin, FiGithub, FiMail } from 'react-icons/fi';
+import { FiLinkedin, FiGithub, FiMail } from "react-icons/fi";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { theme } = useContext(ThemeContext);
 
   return (
-    <footer className="footer">
+    <footer className={`footer ${theme}-footer`}>
       <div className="container footer-container">
         <div className="footer-content">
           <div className="footer-logo">
-            <h3>Chamila<span className="highlight">.</span></h3>
+            <h3>
+              Chamila<span className="highlight">.</span>
+            </h3>
             <p>Software Engineering Undergraduate</p>
           </div>
-          
+
           <div className="footer-links">
             <div className="footer-links-column">
               <h4>Navigation</h4>
               <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li>
+                  <a href="#home">Home</a>
+                </li>
+                <li>
+                  <a href="#about">About</a>
+                </li>
+                <li>
+                  <a href="#projects">Projects</a>
+                </li>
+                <li>
+                  <a href="#contact">Contact</a>
+                </li>
               </ul>
             </div>
-            
+
             <div className="footer-links-column">
               <h4>Connect</h4>
               <div className="footer-social-links">
-                <a href="https://linkedin.com/in/chamila-senaratne/" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://linkedin.com/in/chamila-senaratne/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <FiLinkedin />
                 </a>
-                <a href="https://github.com/chamila04" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://github.com/chamila04"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <FiGithub />
                 </a>
                 <a href="mailto:chamilasenaratne04@gmail.com">
@@ -39,7 +60,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="footer-bottom">
           <p>&copy; {currentYear} Chamila Senaratne. All rights reserved.</p>
           <p className="footer-credit">Designed & Built with ❤️</p>
@@ -48,6 +69,8 @@ const Footer = () => {
 
       <style jsx>{`
         .footer {
+          transition: background-color var(--transition-speed) ease,
+            color var(--transition-speed) ease;
           background-color: var(--secondary-color);
           padding: 60px 0 20px;
         }

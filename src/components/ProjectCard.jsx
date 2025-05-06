@@ -1,37 +1,56 @@
-import { Link } from 'react-router-dom';
-import { FiGithub, FiExternalLink } from 'react-icons/fi';
+import { Link } from "react-router-dom";
+import { FiGithub, FiExternalLink } from "react-icons/fi";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const ProjectCard = ({ project, height }) => {
-  const { id, title, description, image, technologies, liveUrl, githubUrl } = project;
+  const { id, title, description, image, technologies, liveUrl, githubUrl } =
+    project;
+  const { theme } = useContext(ThemeContext);
 
   return (
-    <div className="project-card" style={height ? { height: `${height}px` } : {}}>
+    <div
+      className={`project-card ${theme}-card`}
+      style={height ? { height: `${height}px` } : {}}
+    >
       <Link to={`/project/${id}`} className="card-image-container">
         <img src={image} alt={title} className="card-image" />
         <div className="card-overlay">
           <span>View Details</span>
         </div>
       </Link>
-      
+
       <div className="card-content">
         <h3 className="card-title">{title}</h3>
         <p className="card-description">{description}</p>
-        
+
         <div className="card-footer">
           <div className="card-technologies">
             {technologies.map((tech, index) => (
-              <span key={index} className="card-tech">{tech}</span>
+              <span key={index} className="card-tech">
+                {tech}
+              </span>
             ))}
           </div>
-          
+
           <div className="card-links">
             {githubUrl && (
-              <a href={githubUrl} target="_blank" rel="noopener noreferrer" className="card-link">
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="card-link"
+              >
                 <FiGithub />
               </a>
             )}
             {liveUrl && (
-              <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="card-link">
+              <a
+                href={liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="card-link"
+              >
                 <FiExternalLink />
               </a>
             )}
@@ -44,14 +63,24 @@ const ProjectCard = ({ project, height }) => {
           background-color: var(--secondary-color);
           border-radius: 8px;
           overflow: hidden;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transition: transform 0.3s ease, box-shadow 0.3s ease, 
+                    background-color var(--transition-speed) ease;
           display: flex;
           flex-direction: column;
         }
 
         .project-card:hover {
           transform: translateY(-5px);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          box-shadow: var(--card-shadow);
+        }
+        
+        .light-card {
+          background-color: var(--card-bg);
+          border: 1px solid var(--border-color);
+        }
+        
+        .dark-card {
+          background-color: var(--card-bg);
         }
 
         .card-image-container {
@@ -77,6 +106,14 @@ const ProjectCard = ({ project, height }) => {
           justify-content: center;
           opacity: 0;
           transition: opacity 0.3s ease;
+        }
+        
+        .light-card .card-overlay {
+          background-color: rgba(10, 25, 47, 0.8);
+        }
+        
+        .dark-card .card-overlay {
+          background-color: rgba(0, 0, 0, 0.7);
         }
 
         .card-overlay span {
@@ -106,6 +143,7 @@ const ProjectCard = ({ project, height }) => {
           font-size: 22px;
           margin-bottom: 10px;
           color: var(--text-primary);
+          transition: color var(--transition-speed) ease;
         }
 
         .card-description {
@@ -116,6 +154,7 @@ const ProjectCard = ({ project, height }) => {
           -webkit-box-orient: vertical;
           overflow: hidden;
           text-overflow: ellipsis;
+          transition: color var(--transition-speed) ease;
         }
 
         .card-footer {
@@ -145,11 +184,12 @@ const ProjectCard = ({ project, height }) => {
         .card-link {
           font-size: 20px;
           color: var(--text-primary);
-          transition: color 0.3s ease;
+          transition: color 0.3s ease, transform 0.3s ease;
         }
 
         .card-link:hover {
           color: var(--highlight-color);
+          transform: translateY(-2px);
         }
       `}</style>
     </div>

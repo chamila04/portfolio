@@ -1,15 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FiLinkedin, FiGithub } from "react-icons/fi";
+import { ThemeContext } from "../context/ThemeContext";
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
-    setIsVisible(true);
+    // Add staggered animation effect
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 300);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <section className={`hero ${isVisible ? "visible" : ""}`}>
+    <section className={`hero ${isVisible ? "visible" : ""} ${theme}-hero`}>
       <div className="container hero-container">
         <div className="hero-content">
           <p className="hero-greeting">Hi, my name is</p>
