@@ -1,3 +1,4 @@
+// Loading.jsx
 import { useState, useEffect } from 'react';
 
 const Loading = ({ onLoadingComplete }) => {
@@ -5,16 +6,11 @@ const Loading = ({ onLoadingComplete }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress((prev) => {
-        const next = prev + Math.random() * 8 + 4;
-        return next >= 100 ? 100 : next;
-      });
-    }, 120);
+      setProgress(prev => Math.min(prev + Math.random() * 10, 100));
+    }, 100);
 
-    if (progress >= 100 && onLoadingComplete) {
-      const timeout = setTimeout(() => {
-        onLoadingComplete();
-      }, 1000);
+    if (progress >= 100) {
+      const timeout = setTimeout(onLoadingComplete, 500);
       return () => {
         clearTimeout(timeout);
         clearInterval(interval);
@@ -24,216 +20,113 @@ const Loading = ({ onLoadingComplete }) => {
     return () => clearInterval(interval);
   }, [progress, onLoadingComplete]);
 
-  // Calculate the stroke dash offset for the progress arc
-  const circumference = 2 * Math.PI * 90; // Radius of 90px
-  const strokeDashoffset = circumference - (progress / 100) * circumference;
-
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        background: 'radial-gradient(circle at center, #1e1e2e 0%, #0f172a 100%)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 50,
-      }}
-    >
-      <div
-        style={{
-          position: 'relative',
-          width: '300px',
-          height: '300px',
-        }}
-      >
-        {/* Pulsing orbital ring */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '300px',
-            height: '300px',
-            borderRadius: '50%',
-            background: 'linear-gradient(45deg, #3b82f6, #ec4899, #8b5cf6)',
-            opacity: 0.3,
-            animation: 'pulseRing 2s ease-in-out infinite, rotateGradient 6s linear infinite',
-          }}
-        ></div>
-
-        {/* Progress arc */}
-        <svg
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '300px',
-            height: '300px',
-            transform: 'rotate(-90deg)',
-          }}
-        >
-          <circle
-            cx="150"
-            cy="150"
-            r="90"
-            stroke="#06b6d4"
-            strokeWidth="10"
-            fill="none"
-            strokeDasharray={circumference}
-            strokeDashoffset={strokeDashoffset}
-            style={{
-              transition: 'stroke-dashoffset 0.3s ease',
-              strokeLinecap: 'round',
-            }}
-          />
-        </svg>
-
-        {/* Central glowing orb */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '60px',
-            left: '60px',
-            width: '180px',
-            height: '180px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.8) 0%, rgba(236, 72, 153, 0.2) 70%)',
-            boxShadow: '0 0 30px rgba(59, 130, 246, 0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            animation: 'glowOrb 1.5s ease-in-out infinite',
-          }}
-        >
-          <div
-            style={{
-              color: '#ffffff',
-              fontSize: '3rem',
-              fontWeight: 800,
-              textShadow: '0 0 15px rgba(255, 255, 255, 0.7)',
-            }}
-          >
-            {Math.round(progress)}%
-          </div>
-        </div>
-
-        {/* Dynamic particle trails */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-          }}
-        >
-          {[...Array(8)].map((_, i) => {
-            const angle = (i * 45) * (Math.PI / 180);
-            const radius = 120 + (i % 2) * 20;
-            return (
-              <div
-                key={i}
-                style={{
-                  position: 'absolute',
-                  width: '6px',
-                  height: '6px',
-                  background: `linear-gradient(to right, #3b82f6, #ec4899)`,
-                  borderRadius: '50%',
-                  left: `${150 + Math.cos(angle) * radius}px`,
-                  top: `${150 + Math.sin(angle) * radius}px`,
-                  animation: `orbit${i % 2}  ${2 + i * 0.2}s linear infinite`,
-                  opacity: 0.7 - i * 0.05,
-                  transform: 'scale(0.8)',
-                }}
-              />
-            );
-          })}
-        </div>
+    <div className="loading-overlay">
+      {/* Name display with purple blinking dot */}
+      <div className="loading-name">
+        Chamila
+        <span className="loading-dot">.</span>
       </div>
 
-      {/* Flickering loading text */}
-      <div
-        style={{
-          marginTop: '2.5rem',
-          color: '#3b82f6',
-          fontSize: '1.25rem',
-          fontWeight: 700,
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          textShadow: '0 0 10px rgba(59, 130, 246, 0.5)',
-          animation: 'flicker 3s ease-in-out infinite',
-        }}
-      >
-        Loading
+      <div className="spinner-container">
+        <div className="spinner" />
+        <div className="progress-text">{Math.round(progress)}%</div>
+      </div>
+
+      <div className="wave-wrapper">
+        {[...Array(12)].map((_, i) => (
+          <div key={i} className="wave" style={{ '--i': i }} />
+        ))}
       </div>
 
       <style jsx>{`
-        @keyframes pulseRing {
-          0%, 100% {
-            transform: scale(1);
-            opacity: 0.3;
-          }
-          50% {
-            transform: scale(1.05);
-            opacity: 0.5;
-          }
+        .loading-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--primary-color);
+          color: var(--text-primary);
+          z-index: 50;
+          overflow: hidden;
         }
 
-        @keyframes rotateGradient {
-          0% {
-            background: linear-gradient(45deg, #3b82f6, #ec4899, #8b5cf6);
-          }
-          50% {
-            background: linear-gradient(45deg, #8b5cf6, #3b82f6, #ec4899);
-          }
-          100% {
-            background: linear-gradient(45deg, #3b82f6, #ec4899, #8b5cf6);
-          }
+        .loading-name {
+          display: flex;
+          align-items: center;
+          font-size: 4rem;
+          font-weight: 800;
+          color: var(--text-primary);
+          text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+          letter-spacing: 0.1em;
+          margin-bottom: 2rem;
         }
 
-        @keyframes glowOrb {
-          0%, 100% {
-            transform: scale(1);
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
-          }
-          50% {
-            transform: scale(1.03);
-            box-shadow: 0 0 50px rgba(59, 130, 246, 0.7);
-          }
+        .loading-dot {
+          color: var(--highlight-color);
+          font-size: 1.2em;
+          margin-left: 0.2em;
+          animation: blink 1.5s infinite;
         }
 
-        @keyframes orbit0 {
-          0% {
-            transform: translate(0, 0) rotate(0deg) translate(-120px) rotate(0deg);
-          }
-          100% {
-            transform: translate(0, 0) rotate(360deg) translate(-120px) rotate(-360deg);
-          }
+        .spinner-container {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
-        @keyframes orbit1 {
-          0% {
-            transform: translate(0, 0) rotate(0deg) translate(-140px) rotate(0deg);
-          }
-          100% {
-            transform: translate(0, 0) rotate(-360deg) translate(-140px) rotate(360deg);
-          }
+        .spinner {
+          width: 60px;
+          height: 60px;
+          border: 6px solid var(--secondary-color);
+          border-top-color: var(--highlight-color);
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-bottom: 1rem;
         }
 
-        @keyframes flicker {
-          0%, 18%, 22%, 25%, 53%, 57%, 100% {
-            opacity: 1;
-            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-          }
-          20%, 24%, 55% {
-            opacity: 0.4;
-            text-shadow: none;
-          }
+        .progress-text {
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: var(--highlight-color);
+          text-shadow: 0 0 5px rgba(168, 85, 247, 0.5);
+        }
+
+        .wave-wrapper {
+          position: absolute;
+          bottom: 20px;
+          display: flex;
+          gap: 4px;
+        }
+
+        .wave {
+          width: 8px;
+          height: 24px;
+          background: var(--highlight-color);
+          opacity: 0.6;
+          border-radius: 4px;
+          animation: wave 1s ease-in-out infinite;
+          animation-delay: calc(var(--i) * 0.1s);
+        }
+
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes wave {
+          0%, 100% { transform: scaleY(1); }
+          50% { transform: scaleY(1.8); }
+        }
+
+        @keyframes blink {
+          0%, 50%, 100% { opacity: 1; }
+          25%, 75% { opacity: 0.3; }
         }
       `}</style>
     </div>
