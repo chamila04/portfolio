@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SkeletonLoader from "./components/SkeletonLoader";
+import Loading from "./components/Loading";
 import { ThemeProvider } from "./context/ThemeContext";
 
 // Lazy load pages for better performance
@@ -16,7 +17,7 @@ function App() {
         <div className="app">
           <Navbar />
           <main>
-            <Suspense fallback={<SkeletonLoader />}>
+            <Suspense fallback={<Loading />}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route
