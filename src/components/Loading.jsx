@@ -1,24 +1,21 @@
-// Loading.jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-const Loading = ({ onLoadingComplete }) => {
+const Loading = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress(prev => Math.min(prev + Math.random() * 10, 100));
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return Math.min(prev + Math.random() * 10, 100);
+      });
     }, 100);
 
-    if (progress >= 100) {
-      const timeout = setTimeout(onLoadingComplete, 500);
-      return () => {
-        clearTimeout(timeout);
-        clearInterval(interval);
-      };
-    }
-
     return () => clearInterval(interval);
-  }, [progress, onLoadingComplete]);
+  }, []);
 
   return (
     <div className="loading-overlay">
@@ -35,7 +32,7 @@ const Loading = ({ onLoadingComplete }) => {
 
       <div className="wave-wrapper">
         {[...Array(12)].map((_, i) => (
-          <div key={i} className="wave" style={{ '--i': i }} />
+          <div key={i} className="wave" style={{ "--i": i }} />
         ))}
       </div>
 
@@ -116,17 +113,31 @@ const Loading = ({ onLoadingComplete }) => {
         }
 
         @keyframes spin {
-          to { transform: rotate(360deg); }
+          to {
+            transform: rotate(360deg);
+          }
         }
 
         @keyframes wave {
-          0%, 100% { transform: scaleY(1); }
-          50% { transform: scaleY(1.8); }
+          0%,
+          100% {
+            transform: scaleY(1);
+          }
+          50% {
+            transform: scaleY(1.8);
+          }
         }
 
         @keyframes blink {
-          0%, 50%, 100% { opacity: 1; }
-          25%, 75% { opacity: 0.3; }
+          0%,
+          50%,
+          100% {
+            opacity: 1;
+          }
+          25%,
+          75% {
+            opacity: 0.3;
+          }
         }
       `}</style>
     </div>
